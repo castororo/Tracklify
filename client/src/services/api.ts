@@ -11,7 +11,20 @@ import {
 import { Project, Task, TeamMember, Activity, AnalyticsData, DashboardStats, User, Comment } from '@/types';
 
 // API Base URL - change this to your Express server URL when running backend
-const API_BASE_URL = `${import.meta.env.VITE_API_URL || ''}/api/v1`;
+// API Base URL - handle various VITE_API_URL formats (with/without slash, with/without /api/v1)
+const getApiBaseUrl = () => {
+  let url = import.meta.env.VITE_API_URL || '';
+  // Remove trailing slash
+  if (url.endsWith('/')) {
+    url = url.slice(0, -1);
+  }
+  // Remove /api/v1 if it's already there (to avoid duplication)
+  if (url.endsWith('/api/v1')) {
+    url = url.slice(0, -7);
+  }
+  return `${url}/api/v1`;
+};
+const API_BASE_URL = getApiBaseUrl();
 
 // Use mock data by default (set to false when Express backend is running)
 const USE_MOCK = false;

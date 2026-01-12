@@ -1,7 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { FcGoogle } from 'react-icons/fc';
 
-const API_BASE_URL = `${import.meta.env.VITE_API_URL || ''}/api/v1`;
+const getApiBaseUrl = () => {
+    const url = import.meta.env.VITE_API_URL || '';
+    return url.endsWith('/') ? `${url}api/v1` : `${url}/api/v1`;
+};
+const API_BASE_URL = getApiBaseUrl();
 
 export const GoogleAuthButton = ({ text = 'Continue with Google' }: { text?: string }) => {
     const handleGoogleLogin = () => {
