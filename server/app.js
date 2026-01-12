@@ -10,6 +10,9 @@ dotenv.config();
 
 const app = express();
 
+// Trust the proxy (Render/Vercel) to get correct protocol (https)
+app.set('trust proxy', 1);
+
 // Middleware
 // Middleware
 const allowedOrigins = [
