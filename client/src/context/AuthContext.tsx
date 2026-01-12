@@ -27,6 +27,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       // Check for token in URL (from Google Auth redirect)
       const params = new URLSearchParams(window.location.search);
       const token = params.get('token');
+      // console.log('Frontend Auth Check:', { urlToken: token, localToken: localStorage.getItem(AUTH_TOKEN_KEY) });
+
       if (token) {
         localStorage.setItem(AUTH_TOKEN_KEY, token);
         // Clean URL

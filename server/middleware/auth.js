@@ -1,6 +1,11 @@
 import jwt from 'jsonwebtoken';
 
 export const auth = (req, res, next) => {
+    const authHeader = req.header('Authorization');
+    const cookieToken = req.cookies?.token;
+
+    // console.log('Auth Middleware Debug:', { authHeader, cookieToken: cookieToken ? 'Found' : 'Missing' });
+
     const token = req.header('Authorization')?.replace('Bearer ', '') || req.cookies?.token;
 
     if (!token) {
