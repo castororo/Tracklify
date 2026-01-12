@@ -30,11 +30,15 @@ const API_BASE_URL = getApiBaseUrl();
 const USE_MOCK = false;
 
 // Helper to get auth headers (Token is now handled via httpOnly cookie)
-// Helper to get auth headers (Token is now handled via httpOnly cookie)
 const getAuthHeaders = () => {
-  return {
+  const token = localStorage.getItem('tracklify_token');
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
   };
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  return headers;
 };
 
 // ============== Auth API ==============

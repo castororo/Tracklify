@@ -338,8 +338,8 @@ router.get('/google/callback',
                     maxAge: 360000000 // 100 hours
                 });
 
-                // Redirect to Dashboard
-                res.redirect(`${process.env.CLIENT_URL}/dashboard`);
+                // Redirect to Dashboard with token
+                res.redirect(`${process.env.CLIENT_URL}/dashboard?token=${token}`);
             }
         );
     }

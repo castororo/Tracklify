@@ -21,18 +21,25 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     isLoading: true,
   });
 
-  // Check for existing session on mount (via HttpOnly Cookie)
+  // Check for existing session on mount
   useEffect(() => {
     const checkSession = async () => {
+      // Check for token in URL (from Google Auth redirect)
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get('token');
+      if (token) {
+        localStorage.setItem(AUTH_TOKEN_KEY, token);
+        // Clean URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+
       try {
         const user = await authApi.getMe();
-        // Also sync with localStorage for user details persistence if needed, 
-        // but source of truth is the API call success.
         localStorage.setItem(AUTH_USER_KEY, JSON.stringify(user));
         setAuthState({ user, isAuthenticated: true, isLoading: false });
       } catch (error) {
         // If API fails (401), clear local user data
-        localStorage.removeItem(AUTH_TOKEN_KEY); // Legacy cleanup
+        localStorage.removeItem(AUTH_TOKEN_KEY);
         localStorage.removeItem(AUTH_USER_KEY);
         setAuthState({ user: null, isAuthenticated: false, isLoading: false });
       }
