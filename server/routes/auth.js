@@ -339,7 +339,8 @@ router.get('/google/callback',
                 });
 
                 // Redirect to Dashboard with token
-                res.redirect(`${process.env.CLIENT_URL}/dashboard?token=${token}`);
+                const clientUrl = process.env.CLIENT_URL.replace(/\/$/, '');
+                res.redirect(`${clientUrl}/dashboard?token=${token}`);
             }
         );
     }
