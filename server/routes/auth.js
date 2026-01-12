@@ -105,7 +105,7 @@ router.post('/login', authLimiter, validate(loginSchema), async (req, res, next)
                     .cookie('token', token, {
                         httpOnly: true,
                         secure: process.env.NODE_ENV === 'production',
-                        sameSite: 'strict',
+                        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
                         maxAge: 36000000 // 10 hours
                     })
                     .json({ user: { id: user.id, name: user.name, email: user.email, role: user.role, avatar: user.avatar } });
@@ -334,7 +334,7 @@ router.get('/google/callback',
                 res.cookie('token', token, {
                     httpOnly: true,
                     secure: process.env.NODE_ENV === 'production',
-                    sameSite: 'strict',
+                    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Must be 'none' for cross-site (Render)
                     maxAge: 360000000 // 100 hours
                 });
 
